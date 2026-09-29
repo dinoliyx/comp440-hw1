@@ -7,7 +7,7 @@ summarized as one-liners.
 <!-- transcript-session: f84d5825-0b11-40b8-913f-65d289d01ad2 | 2026-09-29T03:38:51.875Z -->
 ## Session `f84d5825` — 2026-09-29 03:38:51
 
-*3 user turns. Tool outputs and reasoning omitted.*
+*15 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 *(ran `/setup`)*
@@ -54,6 +54,178 @@ What name should go on the writeup?
 Dino Li
 
 **Claude:**
+- 🔧 `Read` — /Users/dinoli/Desktop/COMP440/Homework/comp440-hw1/WRITEUP.md
+- 🔧 `Bash` — Fill name and date, dump transcript, commit
+I filled the top of `WRITEUP.md`. It now reads:
+
+```
+**Name:** Dino Li
+**Date:** 2026-09-28
+```
+
+I updated `TRANSCRIPT.md` and committed everything as `Name and date` (6946a52). The working tree is clean.
+
+That finishes setup. We're on Part 0 now: three predictions in your own words, each with a reason. They get committed before any analysis runs.
+
+For prediction 1, pick a movie you know well. Which movie is it, and what do you think its three most-used tags will be?
+
+**User:**
+sing, I think the three most-used tags will be comedy, child, music
+
+**Claude:**
+- 🔧 `Bash` — Write prediction 1 into its slot and read it back
+I wrote your answer into the "(1) A movie you know well" slot. The only changes are a capital S on Sing and a full stop at the end. It reads:
+
+**(1) A movie you know well, and what its three most-used tags will be:** Sing, I think the three most-used tags will be comedy, child, music.
+
+The next slot is "(1) Why you think so," and it takes one sentence.
+
+Why do you expect those three tags to come out on top?
+
+**User:**
+I want to change my answer to last question
+
+**Claude:**
+No problem. Part 0 isn't committed yet, so you can still change it. Slot (1) currently reads:
+
+**(1) A movie you know well, and what its three most-used tags will be:** Sing, I think the three most-used tags will be comedy, child, music.
+
+I'll replace the whole line with whatever you say, word for word.
+
+What's your new answer for the movie and its three most-used tags?
+
+**User:**
+still sing but the tags would be family, music, animated
+
+**Claude:**
+- 🔧 `Bash` — Replace the tags in prediction 1 and read it back
+I kept your earlier wording and swapped in the three new tags. Every word in the line is still yours. It now reads:
+
+**(1) A movie you know well, and what its three most-used tags will be:** Sing, I think the three most-used tags will be family, music, animated.
+
+The next slot is "(1) Why you think so," and it takes one sentence.
+
+Why do you expect family, music and animated to come out on top?
+
+**User:**
+Because it is an animated movie, and it's a family-oriented musical moive.
+
+**Claude:**
+- 🔧 `Bash` — Write reason 1 into its slot and read it back
+I wrote your sentence into the "(1) Why you think so" slot. The only change was fixing the typo "moive" to "movie." It reads:
+
+**(1) Why you think so:** Because it is an animated movie, and it's a family-oriented musical movie.
+
+Prediction 1 is done. Next is prediction 2. Out of every 100 people who rated movies here, how many do you think ever added a tag?
+
+A single number is enough. The reason comes next turn.
+
+**User:**
+10
+
+**Claude:**
+- 🔧 `Bash` — Write prediction 2 into its slot and read it back
+I wrote your number into the prediction 2 slot. It reads:
+
+**(2) Out of every 100 people who rated movies here, how many ever added a tag?** 10
+
+The next slot is "(2) Why you think so," and it takes one sentence.
+
+Why do you expect about 10 out of every 100?
+
+**User:**
+acutually I want to change it to 30
+
+**Claude:**
+- 🔧 `Bash` — Change prediction 2 to 30 and read it back
+I changed prediction 2 to 30. It now reads:
+
+**(2) Out of every 100 people who rated movies here, how many ever added a tag?** 30
+
+The next slot is "(2) Why you think so," and it takes one sentence.
+
+Why do you expect about 30 out of every 100?
+
+**User:**
+❯I would expect more people have seen it  because it's very family-oriented so the family with kids would love it.
+
+**Claude:**
+- 🔧 `Bash` — Write reason 2 into its slot and read it back
+I wrote your sentence into the "(2) Why you think so" slot. The only change was dropping a doubled space. It reads:
+
+**(2) Why you think so:** I would expect more people have seen it because it's very family-oriented so the family with kids would love it.
+
+There's one mismatch to check. Prediction 2 isn't about Sing. It asks about everyone who rated any movie in this dataset: out of 100 of them, how many ever added a tag to anything? Your reason is about how many people have seen Sing, which is a different quantity. If that's what you meant, the line stays as it is.
+
+Do you want to keep this reason, or give a different one for why 30 of every 100 raters ever tagged?
+
+**User:**
+then I would say 46
+
+**Claude:**
+- 🔧 `Bash` — Change prediction 2 to 46 and read both lines back
+I changed prediction 2 to 46. The two lines now read:
+
+**(2) Out of every 100 people who rated movies here, how many ever added a tag?** 46
+
+**(2) Why you think so:** I would expect more people have seen it because it's very family-oriented so the family with kids would love it.
+
+The reason line is still your sentence about Sing. When you give me the reason for 46, I'll replace it with your new words.
+
+Why do you think 46 out of every 100 raters ever added a tag?
+
+**User:**
+I feel like its common to tag when rating because the features are kind of designed to be integrated now.
+
+**Claude:**
+- 🔧 `Bash` — Replace reason 2 and read it back
+I replaced the "(2) Why you think so" line with your new sentence. The only change was the apostrophe in "it's." It reads:
+
+**(2) Why you think so:** I feel like it's common to tag when rating because the features are kind of designed to be integrated now.
+
+Prediction 2 is done. Next is prediction 3. Can one person's tags take over a movie's tag list?
+
+Yes or no is enough for now. The reason comes next turn.
+
+**User:**
+no
+
+**Claude:**
+- 🔧 `Bash` — Write prediction 3 into its slot and read it back
+I wrote your answer into the prediction 3 slot and capitalised it. It reads:
+
+**(3) Can one person's tags take over a movie's tag list? Yes or no:** No
+
+The last Part 0 slot is "(3) Why you think so," and it takes one sentence.
+
+Why do you think one person's tags can't take over a movie's tag list?
+
+**User:**
+If there's a lot of people tagging it, I think the tag that appears more would take over the list.
+
+**Claude:**
+- 🔧 `Bash` — Write reason 3, read Part 0 back, run the form check
+I wrote your sentence into the "(3) Why you think so" slot unchanged. Part 0 now reads:
+
+**(1) A movie you know well, and what its three most-used tags will be:** Sing, I think the three most-used tags will be family, music, animated.
+**(1) Why you think so:** Because it is an animated movie, and it's a family-oriented musical movie.
+**(2) Out of every 100 people who rated movies here, how many ever added a tag?** 46
+**(2) Why you think so:** I feel like it's common to tag when rating because the features are kind of designed to be integrated now.
+**(3) Can one person's tags take over a movie's tag list? Yes or no:** No
+**(3) Why you think so:** If there's a lot of people tagging it, I think the tag that appears more would take over the list.
+
+`run_all.py` shows every Part 0 slot filled. The only thing it still lists for Part 0 is the missing commit.
+
+Once I commit, these predictions are locked. From then on, a change of mind gets written as a later thought, not as an edit to these lines.
+
+Shall I commit Part 0 as `Part 0 predictions`?
+
+**User:**
+yes
+
+**Claude:**
+- 🔧 `Skill` — checkpoint
+- 🔧 `Bash` — Run the full form check
 - 🔧 `Read` — /Users/dinoli/Desktop/COMP440/Homework/comp440-hw1/WRITEUP.md
 
 <!-- end-session: f84d5825-0b11-40b8-913f-65d289d01ad2 -->
