@@ -12,17 +12,17 @@ here; the words are yours.
 Give these to Claude before any analysis runs. One sentence each, plus one sentence on why you
 think so.
 
-**(1) A movie you know well, and what its three most-used tags will be:** XXXX
+**(1) A movie you know well, and what its three most-used tags will be:** Sing, I think the three most-used tags will be family, music, animated.
 
-**(1) Why you think so:** XXXX
+**(1) Why you think so:** Because it is an animated movie, and it's a family-oriented musical movie.
 
-**(2) Out of every 100 people who rated movies here, how many ever added a tag?** XXXX
+**(2) Out of every 100 people who rated movies here, how many ever added a tag?** 46
 
-**(2) Why you think so:** XXXX
+**(2) Why you think so:** I feel like it's common to tag when rating because the features are kind of designed to be integrated now.
 
-**(3) Can one person's tags take over a movie's tag list? Yes or no:** XXXX
+**(3) Can one person's tags take over a movie's tag list? Yes or no:** No
 
-**(3) Why you think so:** XXXX
+**(3) Why you think so:** If there's a lot of people tagging it, I think the tag that appears more would take over the list.
 
 ## Part 1. Whose data is this?
 
