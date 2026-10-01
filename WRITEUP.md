@@ -28,13 +28,13 @@ think so.
 
 Code: `part1_data.py`.
 
-**My rule for cutting 32 million ratings to 5 million** (written before reading `data/make_compact.py`)**:** XXXX
+**My rule for cutting 32 million ratings to 5 million** (written before reading `data/make_compact.py`)**:** Randomly. I would eliminate every discrete value of ratings at a same proportion.
 
-**One rule I considered and rejected, and why:** XXXX
+**One rule I considered and rejected, and why:** I considered to eliminate ratings randomly but then I realize that is maybe unfair to the users because I want to keep the cutting down fair by saving the same ratio of ratings.
 
-**One interesting thing from `data/README.md`:** XXXX
+**One interesting thing from `data/README.md`:** The way they filter users to the subset is interesting to me because I didn't really think about it when I was making my own rule. Their method of only keeping users who has tagged at least 20 movies is useful because we can gather more information on learning their tagging preference. They also subset a sample of movies first and keeps the user who has at least 20 ratings on those movies.
 
-**How the script's rule differs from mine, and what each keeps that the other drops:** XXXX
+**How the script's rule differs from mine, and what each keeps that the other drops:** My method only thinks about kicking out the ratings but their rule first filter movies then users who has eligible amount of ratings and finally the ratings. My method is more computational easy but their method is more rigorous and keeps more information from the original data set. My method drops users who might rated a lot of movies by the random selection and keeps some of the users who only rated one movie. Their method dropped users who doesn't have 20 ratings but mine will keep them.
 
 **First check. Which of Claude's numbers, the different route you took, and whether it matched** (one good target: 6 tags are the literal text `NA`, which pandas drops unless told not to)**:** XXXX
 
