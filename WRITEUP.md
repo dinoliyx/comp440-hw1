@@ -36,9 +36,9 @@ Code: `part1_data.py`.
 
 **How the script's rule differs from mine, and what each keeps that the other drops:** My method only thinks about kicking out the ratings but their rule first filter movies then users who has eligible amount of ratings and finally the ratings. My method is more computational easy but their method is more rigorous and keeps more information from the original data set. My method drops users who might rated a lot of movies by the random selection and keeps some of the users who only rated one movie. Their method dropped users who doesn't have 20 ratings but mine will keep them.
 
-**First check. Which of Claude's numbers, the different route you took, and whether it matched** (one good target: 6 tags are the literal text `NA`, which pandas drops unless told not to)**:** XXXX
+**First check. Which of Claude's numbers, the different route you took, and whether it matched** (one good target: 6 tags are the literal text `NA`, which pandas drops unless told not to)**:** 85.8. I would sort them as the amount of unique tags per user, then rank it from high to low. Numerator is the total amount of tags those 1402 users and divided by the total amount of tags. It doesn't match.
 
-**Second check. Which of Claude's numbers, the different route you took, and whether it matched:** XXXX
+**Second check. Which of Claude's numbers, the different route you took, and whether it matched:** I tried a different module to check for the "NA" tag and it matched with claude's method.
 
 ## Part 2. What tags best describe a movie?
 
