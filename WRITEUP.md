@@ -48,7 +48,7 @@ Code: `part2_tags.py`.
 
 **Its most misleading tag in the count-ordered list, and why it misleads:** Nudity, because I can't recall any plots with nudity in the movie and that's not what the movie trying to convey. Also I might've watched not the original version.
 
-**What I learned about how MovieLens collects ratings and tags, from rating and tagging my movie myself (about 100 words):** XXXX
+**What I learned about how MovieLens collects ratings and tags, from rating and tagging my movie myself (about 100 words):** They show you a prediction of your rating and shows wht the average ratings are for the movie. I also like that they show all the counts for the tags for the movie because you can just hit the plus button to add, its like checking a list.
 
 ### Up close
 
