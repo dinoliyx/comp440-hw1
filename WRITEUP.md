@@ -206,11 +206,11 @@ My top ten, from `uv run python part3_users.py`, first version of `score(user, t
 
 **What my user viewer shows and why I chose that (about 100 words):**
 
-XXXX
+I showed the user the 20 movies they rated with the top 5 tags that's applied to them on the side in a table. Because I think it gives the user an intuitive context for how their ratings connected to specific themes.
 
 **What I put in the description column for a person, and why (about 150 words):**
 
-XXXX
+their grou like which selection group they belong to and how closely their movie ratings align with mine. And their favorite high-rated movies along with the general genre they watch the most.
 
 **My criterion for people: what it asks the judge to do that the movie criterion did not (about 60 words):**
 
@@ -218,11 +218,11 @@ XXXX
 
 **The user-tag pairs I chose to judge, how many, and why those (about 100 words):**
 
-XXXX
+It should include me plus a sample of other users from the dataset. I picked other users by selecting a diverse mix of rating, some with high rating overlap with me, some with contrasting tastes, and a few randomly sampled users. So the judge has a good baseline to evaluate taste profiles across different type of users.
 
 **Improvement 1: what I changed in the scoring function, what the judge and the viewer showed before and after (about 150 words):**
 
-XXXX
+the judge gave low scores to tags like miyazaki and anthony hopkins because those creators don't appear in the top 2 fav movies. since the judge only sees the text descriptions, any tag that doesn't match those 3 movies gets marked down, even if the tag score was high. It now only receives tags tied directly to those 3 movies, resulting in relevant tags and higher judge ratings
 
 **Improvement 2: the same (about 150 words):**
 

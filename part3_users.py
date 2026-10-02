@@ -38,6 +38,7 @@ import pandas as pd
 
 from load_data import load_all
 from part2_tags import score as movie_score   # the student's Part 2 score(movie, tag)
+from part2_tags import tag_key
 
 REPO = Path(__file__).resolve().parent
 WRITEUP = REPO / "WRITEUP.md"
@@ -90,8 +91,22 @@ def add_me(ratings: pd.DataFrame, mine: pd.DataFrame) -> pd.DataFrame:
 
 # ------------------------------------------------------------------- yours to write ---
 
-def score(ratings: pd.DataFrame, tags: pd.DataFrame, movies: pd.DataFrame, users=(ME,)):
-    """The student's score(user, tag), first version.
+def favorites(ratings: pd.DataFrame, movies: pd.DataFrame, user: int) -> pd.DataFrame:
+    """A user's TOP_MOVIES highest-rated movies, ties alphabetical by title: the films the
+    description names, and since Improvement 1 the only films whose tags are scored."""
+    theirs = ratings[ratings["userId"] == user].join(movies.set_index("movieId"), on="movieId")
+    return theirs.sort_values(["rating", "title"], ascending=[False, True]).head(TOP_MOVIES)
+
+
+def score(ratings: pd.DataFrame, tags: pd.DataFrame, movies: pd.DataFrame, users=(ME,),
+          favorites_only=True):
+    """The student's score(user, tag).
+
+    Improvement 1 (favorites_only): only tags that appear on the user's TOP_MOVIES favorite
+    movies, the ones their description lists, get a score; every other tag is dropped. The
+    value of a kept tag is still the first version's sum over all the user's rated movies.
+
+    First version:
 
     For each movie the user rated: distance = their rating minus the average rating of every
     other user on that movie. Each tag's weight on that movie is the Part 2 score(movie, tag).
@@ -107,7 +122,82 @@ def score(ratings: pd.DataFrame, tags: pd.DataFrame, movies: pd.DataFrame, users
     weights = movie_score(tags, ratings, movies)
     pairs = theirs[["userId", "movieId", "distance"]].merge(weights, on="movieId")
     pairs["score"] = pairs["distance"] * pairs["score"]
-    return pairs.groupby(["userId", "tag"], as_index=False)["score"].sum()
+    out = pairs.groupby(["userId", "tag"], as_index=False)["score"].sum()
+    if favorites_only:
+        fav = pd.concat([favorites(ratings, movies, u)[["userId", "movieId"]] for u in users])
+        on_fav = fav.merge(weights[["movieId", "tag"]], on="movieId")[["userId", "tag"]]
+        out = out.merge(on_fav.drop_duplicates(), on=["userId", "tag"])
+    return out
+
+
+# The student's rule for who goes in judge/users.csv: them, plus three groups of three.
+MIN_SHARED = 10      # overlap and contrasting users rated at least this many of my 20
+PER_GROUP = 3
+SEED = 452           # for the random three
+
+
+def choose_people(ratings: pd.DataFrame, mine: pd.DataFrame) -> pd.DataFrame:
+    """Me, the PER_GROUP users with the lowest and the highest mean absolute error against my
+    ratings (over the movies we both rated, among users sharing at least MIN_SHARED of
+    them), and PER_GROUP users drawn at random from everybody else, under SEED."""
+    others = ratings[ratings["userId"] != ME]
+    stars = mine.set_index("movieId")["rating"]
+    shared = others[others["movieId"].isin(stars.index)]
+    shared = shared.assign(err=(shared["rating"] - shared["movieId"].map(stars)).abs())
+    by_user = shared.groupby("userId").agg(shared=("movieId", "size"), mae=("err", "mean"))
+    pool = by_user[by_user["shared"] >= MIN_SHARED].sort_values(["mae", "shared"])
+    close, far = pool.head(PER_GROUP), pool.tail(PER_GROUP).iloc[::-1]
+    taken = set(close.index) | set(far.index)
+    everyone = pd.Series(sorted(set(others["userId"]) - taken))
+    drawn = everyone.sample(PER_GROUP, random_state=SEED).tolist()
+    rows = ([{"userId": ME, "group": "me"}]
+            + [{"userId": u, "group": "overlap"} for u in close.index]
+            + [{"userId": u, "group": "contrasting"} for u in far.index]
+            + [{"userId": u, "group": "random"} for u in drawn])
+    people = pd.DataFrame(rows).join(by_user, on="userId")
+    people.attrs["pool_mae"] = pool["mae"].mean()
+    return people
+
+
+TOP_MOVIES = 3       # favourite movies named in a description
+TAGS_JUDGED = 10     # tags per person sent to the judge
+USERS_CSV = REPO / "judge" / "users.csv"
+
+
+def judged_tags(scored: pd.DataFrame) -> pd.DataFrame:
+    """The student's rule for which tags the judge rates: keep only score rows whose tag is in
+    judge/vocabulary.txt (both merged by tag_key), then each person's TAGS_JUDGED highest
+    scores, ties alphabetical. The tag is sent in its vocabulary spelling."""
+    words = [t.strip() for t in (REPO / "judge" / "vocabulary.txt").read_text().splitlines()
+             if t.strip()]
+    spelling = {tag_key(w): w for w in words}
+    valid = scored[scored["tag"].isin(spelling)]
+    top = (valid.sort_values(["userId", "score", "tag"], ascending=[True, False, True])
+           .groupby("userId").head(TAGS_JUDGED))
+    return top.assign(tag=top["tag"].map(spelling))
+
+
+def describe(ratings: pd.DataFrame, movies: pd.DataFrame, people: pd.DataFrame,
+             pool_mae: float) -> pd.Series:
+    """The student's description of each person, for judge/users.csv: their group; "high
+    alignment" when their MAE against me is below pool_mae (the average over the users who
+    share at least MIN_SHARED of my movies), "low alignment" when above, NA with no MAE; their
+    TOP_MOVIES highest-rated movies, ties alphabetical by title; and the one genre they rated
+    most often, each movie counting once toward each of its genres, ties alphabetical."""
+    films = movies.set_index("movieId")
+    out = {}
+    for row in people.itertuples():
+        theirs = ratings[ratings["userId"] == row.userId].join(films, on="movieId")
+        best = favorites(ratings, movies, row.userId)
+        genres = theirs["genres"].str.split("|").explode().value_counts()
+        genres = genres.rename_axis("genre").reset_index().sort_values(
+            ["count", "genre"], ascending=[False, True])
+        align = ("NA" if pd.isna(row.mae)
+                 else "high alignment" if row.mae < pool_mae else "low alignment")
+        out[row.userId] = (f"group: {row.group}; alignment with me: {align}; "
+                           f"favorite movies: {', '.join(best['title'])}; "
+                           f"top genre: {genres['genre'].iloc[0]}")
+    return pd.Series(out, name="description")
 
 
 def part3_users(ratings, tags, movies, links):
@@ -133,6 +223,34 @@ def part3_users(ratings, tags, movies, links):
     top = scored[scored.userId == ME].sort_values(["score", "tag"], ascending=[False, True])
     print(f"my ten best tags (userId {ME}; tags shown as their Part 2 merged key):")
     print(top.head(10)[["tag", "score"]].to_string(index=False, float_format="{:.4f}".format))
+
+    print("== (3) who goes to the judge ==")
+    people = choose_people(ratings, mine)
+    print(f"me, {PER_GROUP} lowest and {PER_GROUP} highest mean absolute error among users who "
+          f"rated at least {MIN_SHARED} of my movies, {PER_GROUP} random (seed {SEED}):")
+    print(people.to_string(index=False, float_format="{:.3f}".format))
+    pool_mae = people.attrs["pool_mae"]
+    print(f"average MAE over the users who rated at least {MIN_SHARED} of my movies: {pool_mae:.3f}")
+    print("descriptions:")
+    descriptions = describe(ratings, movies, people, pool_mae)
+    for user, text in descriptions.items():
+        print(f"  {user}: {text}")
+
+    print("== (4) judge/users.csv ==")
+    scored_people = score(ratings, tags, movies, users=list(people["userId"]))
+    chosen = judged_tags(scored_people)
+    for user in people["userId"]:
+        mine_top = chosen[chosen["userId"] == user]
+        print(f"  {user}: {len(mine_top)} tags: " + ", ".join(mine_top["tag"]))
+    # Like judge/movies.csv: tags joined with | and sorted alphabetically, so their order does
+    # not tell the judge which one scored highest.
+    joined = chosen.groupby("userId")["tag"].apply(lambda t: "|".join(sorted(t)))
+    users_csv = pd.DataFrame({"id": people["userId"],
+                              "description": people["userId"].map(descriptions),
+                              "tags": people["userId"].map(joined).fillna("")})
+    users_csv.to_csv(USERS_CSV, index=False)
+    print(f"wrote {USERS_CSV.relative_to(REPO)}: {len(users_csv)} people, "
+          f"{len(chosen)} user-tag pairs")
 
 
 if __name__ == "__main__":
