@@ -139,17 +139,17 @@ Then the three disagreements. A disagreement is a movie and a tag where your `sc
 judge are furthest apart. For each: the movie and the tag, where your `score()` put it and where
 the judge put it, and what you think accounts for the gap.
 
-**Disagreement 1:** XXXX
+**Disagreement 1:** For the shining, the judge put the tag stanley kubrick it 38 and score() put it 2. stanley kubrick is the filmmaker of the shining, it doesn't really capture any information about the movie but form my definition, score() yeild hihgher score for tags that applied to the movie that's unique. I think this gives stanley kubrick a super high score but it's not the best tag for the shining.
 
-**Disagreement 2:** XXXX
+**Disagreement 2:** For KungFu Panda, the score() put the tag action 15th rank and the judge put it the 1st place. The gap is because score() adds penalty to the tag that's popular for example action is a very common tag so although it suits kungfu panda very well, score() give it a lower score compare to other tags.
 
-**Disagreement 3:** XXXX
+**Disagreement 3:** For In the Mood for Love, the judge put the tag cinematography the second in the rank whereas score() put it teh 24th. score() ranks "cinematography" low because it's applied to so many movies that this film's share of its uses is small, while the judge ranks it high because the film is so widely known for its cinematography.
 
-**One other high-level pattern in the results, and what you think is behind it:** XXXX
+**One other high-level pattern in the results, and what you think is behind it:** oh, I saw that tags that are highlighted are at most 2 in every movie, across the four list. I think it's because the order are determined very differently.
 
 ## Predictions revisited
 
-**Which of my three predictions were wrong, and what I make of each miss:** XXXX
+**Which of my three predictions were wrong, and what I make of each miss:** Prediction 2: people actually tag movies way more than I thought. Prediction 3: I still dont think one person's tags can take over a movie's list because the user tagged the most is still on ly 35, which is not a lot compare to the total amount of tags a movie could have form the data set. I guess one user's tags can make a difference if they have 99% of the tags for a movie, but that's still some extreme case in my consideration. Prediction 1: I'm pretty much right about this one except fun but funny was going to be my fourth tag (a later thought).
 
 ## Part 3. What tags best describe a user?
 
