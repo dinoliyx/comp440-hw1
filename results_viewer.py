@@ -45,13 +45,18 @@ REPO = Path(__file__).resolve().parent
 GAP = 5     # how far two ranks must differ before we call the pair a disagreement
 TOP = 10    # how many tags to show in each ranked list
 SHOWN = 10  # how many disagreements to show per movie
+TAGS_SHOWN = 20  # how many tags the count table shows per movie
+HIGHLIGHT = 5  # a tag in the top this-many of all four lists is highlighted
 
 DEFINITION = ("A disagreement is a movie-tag pair whose rank under score() and its rank in the "
               "judge's list differ by at least %d. Every list is ranked best first, with ties "
               "broken alphabetically." % GAP)
 CSS = """body { font-family: Helvetica, Arial, sans-serif; margin: 20px; }
 table { border-collapse: collapse; margin-bottom: 12px; }
-th, td { border: 1px solid #999999; padding: 4px 8px; text-align: left; }"""
+th, td { border: 1px solid #999999; padding: 4px 8px; text-align: left; }
+.lists { display: flex; flex-wrap: wrap; gap: 24px; }
+.lists > div { min-width: 180px; }
+.hl { background: #ffe680; font-weight: bold; }"""
 
 
 def as_date(stamp):
@@ -147,9 +152,8 @@ def build(scores_path, judge_path, data_dir, writeup_path):
             "judge": sorted(judge_rank, key=lambda t: judge_rank[t])[:TOP],
             "score": sorted(score_rank, key=lambda t: score_rank[t])[:TOP],
             "gaps": gaps[:SHOWN],
-            "apps": sorted(((row.tag, row.userId, as_date(row.timestamp))
-                            for row in applied.itertuples()),
-                           key=lambda app: (app[0], app[2])),
+            "applications": len(applied),
+            "tag_counts": sorted(counts.items(), key=lambda tc: (-tc[1], tc[0]))[:TAGS_SHOWN],
         })
     return out
 
@@ -161,10 +165,18 @@ def table_html(headers, rows):
     return "<table><tr>%s</tr>%s</table>" % (head, body)
 
 
-def list_html(tags):
+def on_top_everywhere(movie):
+    """The tags in the top HIGHLIGHT of all four lists."""
+    lists = [movie["counts"], movie["mine"], movie["judge"], movie["score"]]
+    return set.intersection(*(set(tags[:HIGHLIGHT]) for tags in lists))
+
+
+def list_html(tags, marked=()):
     if not tags:
         return "<p>not written yet</p>"
-    return "<ol>%s</ol>" % "".join("<li>%s</li>" % html.escape(t) for t in tags)
+    return "<ol>%s</ol>" % "".join(
+        ('<li class="hl">%s</li>' if t in marked else "<li>%s</li>") % html.escape(t)
+        for t in tags)
 
 
 def render(movies):
@@ -172,15 +184,19 @@ def render(movies):
     head = "<title>Results Viewer v0</title>\n<style>\n%s\n</style>" % CSS
     body = ["<h1>Results Viewer</h1>", "<p>%s</p>" % html.escape(DEFINITION)]
     for movie in movies:
+        marked = on_top_everywhere(movie)
         body += [
             "<h2>%s</h2>" % html.escape(movie["title"]),
-            "<h3>By count</h3>", list_html(movie["counts"]),
-            "<h3>Your order</h3>", list_html(movie["mine"]),
-            "<h3>The judge's order</h3>", list_html(movie["judge"]),
-            "<h3>Your score()</h3>", list_html(movie["score"]),
-            "<h3>Tags on this movie</h3>",
-            table_html(["Tag", "User", "Date"], movie["apps"]),
-            "<p>%d applications by %d people.</p>" % (len(movie["apps"]), movie["people"]),
+            "<p>Highlighted: tags in the top %d of all four lists.</p>" % HIGHLIGHT,
+            '<div class="lists">',
+            "<div><h3>By count</h3>%s</div>" % list_html(movie["counts"], marked),
+            "<div><h3>Your order</h3>%s</div>" % list_html(movie["mine"], marked),
+            "<div><h3>The judge's order</h3>%s</div>" % list_html(movie["judge"], marked),
+            "<div><h3>Your score()</h3>%s</div>" % list_html(movie["score"], marked),
+            "</div>",
+            "<h3>Top %d tags on this movie, by count</h3>" % TAGS_SHOWN,
+            table_html(["Tag", "Count"], movie["tag_counts"]),
+            "<p>%d applications by %d people.</p>" % (movie["applications"], movie["people"]),
             "<h3>Biggest disagreements, score() against the judge</h3>",
             table_html(["Tag", "score() rank", "Judge rank"], movie["gaps"]),
         ]
@@ -209,17 +225,32 @@ def numbered(tags):
     return "\n".join("    %2d. %s" % (i, tag) for i, tag in enumerate(tags, 1))
 
 
+def side_by_side(columns, marked=()):
+    """The ranked lists as columns of one block, so a row reads across all of them.
+    A * marks a tag in the top HIGHLIGHT of all four."""
+    cells = [[name] + ["%2d. %s%s" % (i, t, " *" if t in marked else "")
+                       for i, t in enumerate(tags, 1)]
+             for name, tags in columns]
+    cells = [c if len(c) > 1 else c + ["(not written yet)"] for c in cells]
+    width = [max(len(x) for x in c) for c in cells]
+    rows = max(len(c) for c in cells)
+    return "\n".join("  " + "  ".join((c[r] if r < len(c) else "").ljust(width[j])
+                                     for j, c in enumerate(cells)).rstrip()
+                     for r in range(rows))
+
+
 def render_text(movies):
     out = ["Results Viewer", DEFINITION, ""]
     for movie in movies:
         out += [movie["title"],
-                "  By count", numbered(movie["counts"]),
-                "  Your order", numbered(movie["mine"]),
-                "  The judge's order", numbered(movie["judge"]),
-                "  Your score()", numbered(movie["score"]),
-                "  Tags on this movie",
-                table_text(["Tag", "User", "Date"], movie["apps"]),
-                "  %d applications by %d people." % (len(movie["apps"]), movie["people"]),
+                side_by_side([("By count", movie["counts"]),
+                              ("Your order", movie["mine"]),
+                              ("The judge's order", movie["judge"]),
+                              ("Your score()", movie["score"])],
+                             on_top_everywhere(movie)),
+                "  Top %d tags on this movie, by count" % TAGS_SHOWN,
+                table_text(["Tag", "Count"], movie["tag_counts"]),
+                "  %d applications by %d people." % (movie["applications"], movie["people"]),
                 "  Biggest disagreements, score() against the judge",
                 table_text(["Tag", "score() rank", "Judge rank"], movie["gaps"]), ""]
     return "\n".join(out)

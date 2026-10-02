@@ -124,16 +124,16 @@ XXXX
 
 ### The viewer and the disagreements
 
-**One thing `movie_results.html` showed me that was useful, and one thing about it that got in my way:** XXXX
+**One thing `movie_results.html` showed me that was useful, and one thing about it that got in my way:** Useful, I see how the list of tags are compared across different methods. Got in my way, the page shows all the tags on the movie, making it such a long page.
 
 Then three improvements. For each: what the page would not let you see, what you had Claude
 change, and what the changed page shows that the first draft did not.
 
-**Improvement 1:** XXXX
+**Improvement 1:** The page was hard to read because of the long list of all tags on movies, I change it to a table with tags and counts and that makes the page more neat.
 
-**Improvement 2:** XXXX
+**Improvement 2:** The page was showing the list from the four methods one by one, which makes it hard to look at to compare so I ask Claude to put them in the same row. Now they are easy to look at and compare.
 
-**Improvement 3:** XXXX
+**Improvement 3:** It was hard for me to notice the best tag from the list so I ask claude to highlight the tag that remain in top 5 across four list. Now you can easily spot the tag that is in top 5 from every list.
 
 Then the three disagreements. A disagreement is a movie and a tag where your `score()` and the
 judge are furthest apart. For each: the movie and the tag, where your `score()` put it and where
