@@ -72,7 +72,7 @@ details below come from. Say which script made them.
 
 **Why my definition, in about 150 words. Name one thing it gains and one thing it loses:**
 
-XXXX
+I choose this definition because I want it to compare the frequency of tags applied to one movie with all movies. I think this way we can figure out how this tag fits this specific movie compared to other movies. And the 10 tags cutoff avoid the problem of if there's a random tag that only applied once then it won't have the highest score just because of that. I gain specificity which tells me if tags are concentrated in one movie or not. For example, Stephen King for the Shining would score high because its one of his most successful movie. However this ratio can overlook accurate tags that are also popular. For example, horror is a perfect tag for the Shining but since this tag has been applied too many times on other movies too so it loses the weight on the Shining.
 
 ### The judge
 
@@ -108,7 +108,7 @@ An order line looks like `296: nonlinear, hit men, dark comedy, ...`, the tags b
 
 **One criterion I considered for the judge and rejected, and why** (the one I used is in `judge/criterion.md`)**:** XXXX
 
-**Agreement. The number `agreement.py` gives for your `score()`, for popularity and for your own order, and which of the three came closest to the judge:** XXXX
+**Agreement. The number `agreement.py` gives for your `score()`, for popularity and for your own order, and which of the three came closest to the judge:** score() 2.45, popularity 2.85, your own order 3.50, all out of 5. My own rule came closest to the judge but also it wan't fair because my own rule only rated 10 movies and the other methods looks at all movies, so it was an easier task for me.
 
 **How the judge skill is built: the files it is made of and what each one does (about 150 words):**
 
