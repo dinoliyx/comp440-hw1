@@ -44,9 +44,9 @@ Code: `part1_data.py`.
 
 Code: `part2_tags.py`.
 
-**My movie, and why I picked it:** XXXX
+**My movie, and why I picked it:** The Shining (1980), because it's a classic I think and I'm interested to see how people tag and rate it.
 
-**Its most misleading tag in the count-ordered list, and why it misleads:** XXXX
+**Its most misleading tag in the count-ordered list, and why it misleads:** Nudity, because I can't recall any plots with nudity in the movie and that's not what the movie trying to convey. Also I might've watched not the original version.
 
 **What I learned about how MovieLens collects ratings and tags, from rating and tagging my movie myself (about 100 words):** XXXX
 
@@ -55,20 +55,20 @@ Code: `part2_tags.py`.
 One sentence on the figure written before you saw it and one after. The two tables are where the
 details below come from. Say which script made them.
 
-**The figure, when the tags and the ratings arrived. What I expected:** XXXX
-**The figure, what it shows:** XXXX
+**The figure, when the tags and the ratings arrived. What I expected:** Mostly early since it's an old movie.
+**The figure, what it shows:** I'm surprised that no one tag this movie until 2006 but the figure shows the amount of ratings and tags every year.
 
-**Two interesting details I learned up close that the counts did not show:** XXXX
+**Two interesting details I learned up close that the counts did not show:** 1. People who tagged Stanley Kubrick rated, on average, higher than the ones who tagged Stephen King. I would thought the opposite. 2. People who tagged also just rate the movie higher in general compare to ones who didn't tagged.
 
-**Anything up close that contradicted something I had already written down. Which one, what the data showed, and what you now think. Or "nothing yet":** XXXX
+**Anything up close that contradicted something I had already written down. Which one, what the data showed, and what you now think. Or "nothing yet":** Yeah my prediction for the rank of the tag for Shining was that cult film would probably be on top because its such a classic cult movie but it actually sit at the bottom of the list.
 
 ### My definition
 
-**My `score(movie, tag)`** (one or two sentences, precise enough that a classmate could code it)**:** XXXX
+**My `score(movie, tag)`** (one or two sentences, precise enough that a classmate could code it)**:** score(movie, tag) is the number of times the tag was applied to this movie divided by the number of times it was applied to any movie, computed only for tags applied at least 10 times across all movies. Tags applied fewer than 10 times in total get a score of 0.
 
-**One definition I considered and rejected, and why:** XXXX
+**One definition I considered and rejected, and why:** One definition I had was that only counting the frequency a tag applied to the movie because that would imply how much people resonate with the same tag but I think the score should be more rigorous than that, it should have some limit to filter out for some tags that's random.
 
-**Which tags I merged as the same tag, which I kept apart, and why:** XXXX
+**Which tags I merged as the same tag, which I kept apart, and why:** I kept the tags that has the same word but some alternations as the same tag, for example if there's lower/capitalized case or inner spaces because to me they are conveying the same information just in different format. I just keep every word apart because I want them to have different information and weight on the movie so it's good to have a diverse range of tag.
 
 **Why my definition, in about 150 words. Name one thing it gains and one thing it loses:**
 
@@ -82,11 +82,29 @@ An order line looks like `296: nonlinear, hit men, dark comedy, ...`, the tags b
 
 **My ten movies:**
 
-XXXX
+1258, Shining, The (1980)
+59784, Kung Fu Panda (2008)
+4144, In the Mood For Love (Fa yeung nin wa) (2000)
+152081, Zootopia (2016)
+168492, Call Me by Your Name (2017)
+122912, Avengers: Infinity War - Part I (2018)
+95510, Amazing Spider-Man, The (2012)
+1721, Titanic (1997)
+54001, Harry Potter and the Order of the Phoenix (2007)
+2459, Texas Chainsaw Massacre, The (1974)
 
 **My own order of the ten most-used tags, written before looking at any data: my movie from step 1, then my nine others from step 4:**
 
 1258: cult film, psychological, Stephen King, suspense, dreamlike, visually appealing, atmospheric, Stanley Kubrick, Jack Nicholson, disturbing
+59784: Kung Fu, funny, animation, animals, anti-hero, pixar, Jack Black, underdog, comedy, martial arts
+4144: Wong Kar Wai, atmospheric, elegant, visually stunning, moody, melancholy, melancholic, stylized, music, loneliness
+152081: friendship, funny, tolerance, cute, social commentary, visually stunning, xenophobia, racism, attention to detail, creative
+168492: gay, gay romance, romance, Timothée Chalamet, lgbt, atmospheric, sensual, coming of age, Armie Hammer, italy
+122912: superhero, Marvel, MCU, comic book, Robert Downey Jr., Thanos, time travel, emotional, Guardians of the Galaxy, cliffhanger
+95510: action, Spider-Man, Marvel, superhero, Andrew Garfield, Emma Stone, comic book, nerds kicking butt, Martin Sheen, special effects
+1721: romance, drama, historical, disaster, Leonardo DiCaprio, true story, love story, Kate Winslet, atmospheric, bittersweet
+54001: harry potter, fantasy, magic, wizards, based on a book, Gary Oldman, magic school, fantasy world, Emma Watson, Daniel Radcliffe
+2459: horror, dark, atmospheric, grim, tense, disturbing, gruesome, slasher, grindhouse, cannibalism
 
 **One criterion I considered for the judge and rejected, and why** (the one I used is in `judge/criterion.md`)**:** XXXX
 
