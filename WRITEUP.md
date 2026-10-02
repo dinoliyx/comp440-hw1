@@ -160,15 +160,49 @@ and no numbering, the movieId first and the rating last, as in `296, Pulp Fictio
 
 **My 20 ratings:**
 
-XXXX
+446, Farewell My Concubine (Ba wang bie ji) (1993), 5.0
+1721, Titanic (1997), 4.0
+152081, Zootopia (2016), 4.0
+167036, Sing (2016), 5.0
+164909, La La Land (2016), 4.5
+2959, Fight Club (1999), 4.0
+2571, Matrix, The (1999), 4.5
+5618, Spirited Away (Sen to Chihiro no kamikakushi) (2001), 5.0
+593, Silence of the Lambs, The (1991), 4.5
+202439, Parasite (2019), 3.5
+177765, Coco (2017), 5.0
+95510, Amazing Spider-Man, The (2012), 5.0
+254726, Dune (2021), 3.5
+1200, Aliens (1986), 4.0
+1203, 12 Angry Men (1957), 5.0
+47099, Pursuit of Happyness, The (2006), 4.5
+134853, Inside Out (2015), 4.0
+50872, Ratatouille (2007), 4.0
+1387, Jaws (1975), 3.5
+4447, Legally Blonde (2001), 5.0
 
 **My `score(user, tag)`, in a sentence, and why I started there (about 100 words):**
 
-XXXX
+My score is calculated by taking my rating distance per movie relative to average user ratings, weighing it by each tag's score from part 2 and summing those weighted distances across all my rated movies. I started with this rule because it directly isolates my unique taste over general consensus while leveraging our existing tag specificity scores to give more weight on the descriptive ones.
 
 **What my score says about me: my top ten tags, and whether they describe my taste (about 100 words):**
 
-XXXX
+No they don't, I don't understand some of the tags here like diadelosmuertos and doortothedifferentworld. I feel like they are not very related to the movies I rated. Although I can see how pink and lawschool comes from legally blonde which I rated 5.
+
+My top ten, from `uv run python part3_users.py`, first version of `score(user, tag)`:
+
+| tag | score |
+| --- | --- |
+| pink | 1.2562 |
+| ordinary | 1.0279 |
+| wasntfunny | 1.0279 |
+| diadelosmuertos | 0.9398 |
+| gaystereotypes | 0.8206 |
+| doortothedifferentworld | 0.7885 |
+| cinemascope | 0.7686 |
+| lawschool | 0.7537 |
+| notasgoodastheoriginal | 0.7248 |
+| spanglish | 0.7196 |
 
 **What my user viewer shows and why I chose that (about 100 words):**
 

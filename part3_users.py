@@ -37,6 +37,7 @@ from pathlib import Path
 import pandas as pd
 
 from load_data import load_all
+from part2_tags import score as movie_score   # the student's Part 2 score(movie, tag)
 
 REPO = Path(__file__).resolve().parent
 WRITEUP = REPO / "WRITEUP.md"
@@ -89,18 +90,27 @@ def add_me(ratings: pd.DataFrame, mine: pd.DataFrame) -> pd.DataFrame:
 
 # ------------------------------------------------------------------- yours to write ---
 
-def score(ratings: pd.DataFrame, tags: pd.DataFrame, movies: pd.DataFrame):
-    """What tags best describe a user. This one is yours; the handout's Part 3, step 2.
+def score(ratings: pd.DataFrame, tags: pd.DataFrame, movies: pd.DataFrame, users=(ME,)):
+    """The student's score(user, tag), first version.
 
-    Return one row per user-tag pair: userId, tag, score, higher meaning the tag describes
-    the user better. Start simply, test it on your own ratings, and improve it twice with
-    what your viewer and your judge show you."""
-    print("score(user, tag) is yours to write")
+    For each movie the user rated: distance = their rating minus the average rating of every
+    other user on that movie. Each tag's weight on that movie is the Part 2 score(movie, tag).
+    score(user, tag) is the sum, over the user's rated movies, of distance times weight.
+
+    `users` is which users to score; the join is one row per rating per tag on the movie, so
+    scoring all 23,000 users at once does not fit in memory."""
+    stats = ratings.groupby("movieId")["rating"].agg(["sum", "count"])
+    theirs = ratings[ratings["userId"].isin(users)].join(stats, on="movieId")
+    # The average of every OTHER user: this user's own rating is taken out of the movie's mean.
+    others = (theirs["count"] - 1).where(theirs["count"] > 1)
+    theirs = theirs.assign(distance=theirs["rating"] - (theirs["sum"] - theirs["rating"]) / others)
+    weights = movie_score(tags, ratings, movies)
+    pairs = theirs[["userId", "movieId", "distance"]].merge(weights, on="movieId")
+    pairs["score"] = pairs["distance"] * pairs["score"]
+    return pairs.groupby(["userId", "tag"], as_index=False)["score"].sum()
 
 
 def part3_users(ratings, tags, movies, links):
-    print("part 3 unimplemented")  # delete this line when you start
-
     print("== (1) my ratings ==")
     mine, skipped = read_my_ratings()
     print(f'{len(mine)} rating(s) read from the "{SLOT}" slot in WRITEUP.md.')
@@ -118,7 +128,11 @@ def part3_users(ratings, tags, movies, links):
         print(f"{len(ratings):,} ratings, none of them yours yet.")
 
     print("== (2) score(user, tag) ==")
-    score(ratings, tags, movies)
+    scored = score(ratings, tags, movies)
+    print(f"{len(scored):,} user-tag rows over {scored.userId.nunique():,} user(s).")
+    top = scored[scored.userId == ME].sort_values(["score", "tag"], ascending=[False, True])
+    print(f"my ten best tags (userId {ME}; tags shown as their Part 2 merged key):")
+    print(top.head(10)[["tag", "score"]].to_string(index=False, float_format="{:.4f}".format))
 
 
 if __name__ == "__main__":
