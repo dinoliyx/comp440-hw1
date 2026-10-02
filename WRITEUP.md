@@ -106,21 +106,21 @@ An order line looks like `296: nonlinear, hit men, dark comedy, ...`, the tags b
 54001: harry potter, fantasy, magic, wizards, based on a book, Gary Oldman, magic school, fantasy world, Emma Watson, Daniel Radcliffe
 2459: horror, dark, atmospheric, grim, tense, disturbing, gruesome, slasher, grindhouse, cannibalism
 
-**One criterion I considered for the judge and rejected, and why** (the one I used is in `judge/criterion.md`)**:** XXXX
+**One criterion I considered for the judge and rejected, and why** (the one I used is in `judge/criterion.md`)**:** I considered having the criterion that a tag that best describe a movie should be the one that most people would agree to. But I realize that would just be the rank of counts of tags which is already existing in the file.
 
 **Agreement. The number `agreement.py` gives for your `score()`, for popularity and for your own order, and which of the three came closest to the judge:** score() 2.45, popularity 2.85, your own order 3.50, all out of 5. My own rule came closest to the judge but also it wan't fair because my own rule only rated 10 movies and the other methods looks at all movies, so it was an easier task for me.
 
 **How the judge skill is built: the files it is made of and what each one does (about 150 words):**
 
-XXXX
+Skill.md reads judge/readme.md and do what it says. system.md tells claude to rate how well the tags are applied to the movies. criterion is the rule I decided on what a tag best describes a movie. Claude will read it and judge the tags base on my rule. judge.py evaluates a set of 110 movies against my criterion and generate ratings and retry missing tags before saving the final results to ratings_movies.csv. Readme provides instructions for me to understand how the judge operates. movies.csv is the subset of movies with their id and descriptions and tags. vocabulary is the subset that holds the tags the judge is allowed to rate.
 
 **What happens when I run `/judge`, from the first check to the CSV (about 150 words):**
 
-XXXX
+when you run judge, the process begins with pre-execution checks that verifies the items files exist and validate the rule or criterion I chose. Once that's done, it reads the elements of the items file alongside my ten movies and outputs a status message indicating which rule was loaded and what information it is about to request. Next, it moves into execution by launching an individual claude session for each movie. It processes and reads all the returned answers, automatically reprompting any sessions that returned incomplete or short response to make sure we have the full data. Lastly, it writes the collected results to the csv output and print out a summary.
 
 **Why a skill: what a skill like this gives you that a script or a prompt alone does not, and where you would use one next (about 100 words):**
 
-XXXX
+A skill gives you flexibility that you don't need to remember complex terminal commands, or file paths. And I also don't need to evaluate the movies one by one or organize the output myself. It saves a lot of labors from me doing repeating tasks. I would like to use skill like it in my project when I know what I want to do with each item but have to do it one by one. It's a great tool to avoid a lot of manual labors.
 
 ### The viewer and the disagreements
 
