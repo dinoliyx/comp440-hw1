@@ -99,8 +99,11 @@ def favorites(ratings: pd.DataFrame, movies: pd.DataFrame, user: int) -> pd.Data
 
 
 def score(ratings: pd.DataFrame, tags: pd.DataFrame, movies: pd.DataFrame, users=(ME,),
-          favorites_only=True):
+          favorites_only=True, rating_weighted=True):
     """The student's score(user, tag).
+
+    Improvement 2 (rating_weighted): each movie's term is also multiplied by the user's own
+    rating of that movie, so it is distance x Part 2 weight x rating.
 
     Improvement 1 (favorites_only): only tags that appear on the user's TOP_MOVIES favorite
     movies, the ones their description lists, get a score; every other tag is dropped. The
@@ -120,8 +123,10 @@ def score(ratings: pd.DataFrame, tags: pd.DataFrame, movies: pd.DataFrame, users
     others = (theirs["count"] - 1).where(theirs["count"] > 1)
     theirs = theirs.assign(distance=theirs["rating"] - (theirs["sum"] - theirs["rating"]) / others)
     weights = movie_score(tags, ratings, movies)
-    pairs = theirs[["userId", "movieId", "distance"]].merge(weights, on="movieId")
+    pairs = theirs[["userId", "movieId", "rating", "distance"]].merge(weights, on="movieId")
     pairs["score"] = pairs["distance"] * pairs["score"]
+    if rating_weighted:
+        pairs["score"] = pairs["score"] * pairs["rating"]
     out = pairs.groupby(["userId", "tag"], as_index=False)["score"].sum()
     if favorites_only:
         fav = pd.concat([favorites(ratings, movies, u)[["userId", "movieId"]] for u in users])

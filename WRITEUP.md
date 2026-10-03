@@ -210,23 +210,23 @@ I showed the user the 20 movies they rated with the top 5 tags that's applied to
 
 **What I put in the description column for a person, and why (about 150 words):**
 
-their grou like which selection group they belong to and how closely their movie ratings align with mine. And their favorite high-rated movies along with the general genre they watch the most.
+their group like which selection group they belong to and how closely their movie ratings align with mine. And their favorite high-rated movies along with the general genre they watch the most. It gives the judge context on where the user sits in the 10-person sample and how closely are they matching with my taste. It also provides concrete titles so the judge can evaluate whether chosen tags match the core themes or not.
 
 **My criterion for people: what it asks the judge to do that the movie criterion did not (about 60 words):**
 
-XXXX
+The movie criterion asks the judge to evaluate how well tags describe a single movie's overall plot and style. And the people criterion asks the judge to evaluate how well tags capture a person's broader taste profile
 
 **The user-tag pairs I chose to judge, how many, and why those (about 100 words):**
 
-It should include me plus a sample of other users from the dataset. I picked other users by selecting a diverse mix of rating, some with high rating overlap with me, some with contrasting tastes, and a few randomly sampled users. So the judge has a good baseline to evaluate taste profiles across different type of users.
+It should include me plus a sample of other users from the dataset. I picked other users by selecting a diverse mix of rating, some with high rating overlap with me, some with contrasting tastes, and a few randomly sampled users. So the judge has a good baseline to evaluate taste profiles across different type of users. the number is 10 tags per user. Include each user's top 10 highest-scoring tags after filtering through vocab.txt so every tag is evaluated by the judge is a valid and closely reflective.
 
 **Improvement 1: what I changed in the scoring function, what the judge and the viewer showed before and after (about 150 words):**
 
-the judge gave low scores to tags like miyazaki and anthony hopkins because those creators don't appear in the top 2 fav movies. since the judge only sees the text descriptions, any tag that doesn't match those 3 movies gets marked down, even if the tag score was high. It now only receives tags tied directly to those 3 movies, resulting in relevant tags and higher judge ratings
+the judge gave low scores to tags like miyazaki and anthony hopkins because those creators don't appear in the top 3 fav movies. since the judge only sees the text descriptions, any tag that doesn't match those 3 movies gets marked down, even if the tag score was high. It now only receives tags tied directly to those 3 movies, resulting in relevant tags and higher judge ratings
 
 **Improvement 2: the same (about 150 words):**
 
-XXXX
+Change score to weight candidate tags by multiplying each movie's score by the user's explicit movie ratings and distance and weight, keeping only tags from their top 3 movies. it makes the rank list much cleaner and easier to read. Irrelevant creator tags are gone. Judge's ratings also improved because it now give top scores to the most defining elements of your profile instead of 1. The highest scoring tags also align with the judge's top rank
 
 ## Part 4. Working with Claude
 
