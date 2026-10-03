@@ -234,17 +234,17 @@ Give these to Claude the way you gave it the rest. Graded on the catch and the c
 making Claude look good or bad.
 
 **A moment where Claude was wrong or overconfident, how you caught it, and where it
-happened. Name the part and the step, so the moment can be found:** XXXX
+happened. Name the part and the step, so the moment can be found:** when I was working with the viewer claude mistaken my command of highlighting and making the table, I caught it by checking the tables myself because it's visually reflective. part 2 viewer when asking for improvement
 
-**One call where you overrode Claude, and why:** XXXX
+**One call where you overrode Claude, and why:** One moment that I overrode Claude is when it change the order of answering to the slot in part 2 when I'm building the viewer, I just found it confusing and did it in my own order.
 
-**What you would hand to Claude sooner next time:** XXXX
+**What you would hand to Claude sooner next time:** when I'm trying to come up with the formula for scores of tags that describe a user. I should've ask claude to print out the conditions and elements I have and connect them with visual output so I can see what's there to manipulate.
 
-**Did Claude name the misleading tag in Part 2 step 1 before you did? What happened:** XXXX
+**Did Claude name the misleading tag in Part 2 step 1 before you did? What happened:** well I dont think claude name it before I did.
 
 **The figure. Would asking Claude "what does this show?" have produced your sentence, and what
-would have been missing from it:** XXXX
+would have been missing from it:** I think that will be very helpful to summarize the figures for me
 
-**Hours spent:** XXXX
+**Hours spent:** 6~8 hours
 
-**Anyone who helped you, or "no one":** XXXX
+**Anyone who helped you, or "no one":** no one
